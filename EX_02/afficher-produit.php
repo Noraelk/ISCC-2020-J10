@@ -2,32 +2,31 @@
 function connect_to_database(){
     $servername = "localhost";
     $username = "root";
-    $password = "root";
-    $databasename = "BaseTest1";
+    $password = "root"; 
+    $databasename = "basetest1";
 
-    try {
-        $pdo = new PDO("mysql:host=$servname;dbname=$databasename", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try {
+    $pdo = new PDO("mysql:host=$servername;dbname=$databasename", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        echo "Connected successfully";
-        //on est connectee
-        return $pdo;
-    } catch (PDOException $e) {
-        echo "Connection failed: ". $e->getMessage();
-    }
+    echo "Vous êtes connectés <br>";
+    return $pdo;
+}catch (PDOException $e) {
+echo "La connexion a échoué". $e->getMessage();
 }
+}
+
 
 $pdo = connect_to_database();
-//apres la connection on peut effectuer des enregistrements
-//requete qui recupere un seul enregistrement 
-$query = $pdo->query("SELECT * FROM masupertable");
-$user = $query->fetch();
-var_dump($user);
 
-//requete qui recupere plusieurs enregistrements 
-$users = $pdo->query("SELECT * FROM masupertable")->fetchAll();
-//Ensuite on peut afficher 
-var_dump($users);
-foreach ($users as $user) {
-    echo $user['Nom']."<br/>";
+$products=$pdo->query("SELECT * FROM produit")->fetchAll();
+
+echo'<ul>';
+foreach($products as $product){
+
+    echo '
+    <li>',$product['nom'],'</li></ul>';
 }
+echo'</ul>';
+
+?>
